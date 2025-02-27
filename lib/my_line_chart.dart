@@ -21,10 +21,23 @@ class MyLineChart extends StatelessWidget {
           maxY: dataPoints.fold(350.0, (acc, pt) => math.max(acc, pt.max)) + 50,
           gridData: FlGridData(show: true),
           borderData: FlBorderData(
-              show: true,
-              border: Border(left: BorderSide(), bottom: BorderSide())),
+            show: true,
+            border: Border(
+              left: BorderSide(),
+              bottom: BorderSide(),
+            ),
+          ),
           lineBarsData: dataLines(),
           titlesData: axisLabels(),
+          lineTouchData: LineTouchData(
+            touchTooltipData: LineTouchTooltipData(
+                getTooltipItems: (items) => items.map((e) {
+                      final dateTime =
+                          DateTime.fromMillisecondsSinceEpoch(e.x.toInt());
+                      final String time = TimeHelpers.hms(dateTime);
+                      return LineTooltipItem('$time ${e.y}', TextStyle());
+                    }).toList()),
+          ),
         ),
       ),
     );
